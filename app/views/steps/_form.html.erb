@@ -1,5 +1,5 @@
 
-<%= simple_form_for(@step) do |f| %>
+<%= simple_form_for([@recipe, @step]) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
@@ -8,10 +8,10 @@
     <%= f.input :description %>
     <%= f.input :time %>
     <%= f.input :timer %>
-    <%= f.association :recipe %>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit %>
+  <div class="actions">
+    <%= f.submit "Add Another Step", name: 'commit' %>
+    <%= f.submit "Finish Recipe", name: 'commit' %>
   </div>
 <% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_06_23_093502) do
+ActiveRecord::Schema[7.2].define(version: 2024_06_23_125306) do
   create_table "comments", force: :cascade do |t|
     t.integer "rating"
     t.text "body"
@@ -37,6 +37,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_06_23_093502) do
     t.integer "step_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "quantity"
+    t.string "unit"
     t.index ["ingredient_id"], name: "index_ingredients_steps_on_ingredient_id"
     t.index ["step_id"], name: "index_ingredients_steps_on_step_id"
   end

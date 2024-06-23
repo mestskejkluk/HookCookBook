@@ -8,24 +8,29 @@ class RecipesController < ApplicationController
 
   # GET /recipes/1 or /recipes/1.json
   def show
+    @recipe = Recipe.find(params[:id])
   end
 
   # GET /recipes/new
   def new
-    @recipe = Recipe.new
+    @recipe = current_user.recipes.build
+    @recipe.steps.build
   end
 
   # GET /recipes/1/edit
   def edit
+    @recipe = Recipe.find(params[:id])
+    @recipe.steps.build if @recipe.steps.empty?
   end
 
   # POST /recipes or /recipes.json
   def create
-    @recipe = Recipe.new(recipe_params)
+    @recipe = current_user.recipes.build(recipe_params)
 
     respond_to do |format|
       if @recipe.save
-        format.html { redirect_to recipe_url(@recipe), notice: "Recipe was successfully created." }
+        format.html { redirect_to new_recipe_step_path(@recipe), notice: "Receipt was successfully created. Now add steps." }
+        
         format.json { render :show, status: :created, location: @recipe }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -58,13 +63,18 @@ class RecipesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_recipe
-      @recipe = Recipe.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def recipe_params
-      params.require(:recipe).permit(:name, :description, :difficulty, :user_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_recipe
+    @recipe = Recipe.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  # def recipe_params
+  #   params.require(:recipe).permit(:name, :description, :difficulty, :user_id)
+  # ends
+
+  def recipe_params
+    params.require(:recipe).permit(:name, :description, :difficulty, steps_attributes: [:id, :time, :name, :description, :_destroy])
+  end
 end

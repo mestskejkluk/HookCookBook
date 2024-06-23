@@ -12,7 +12,8 @@ class StepsController < ApplicationController
 
   # GET /steps/new
   def new
-    @step = Step.new
+    @recipe = Recipe.find(params[:recipe_id])
+    @step = @recipe.steps.new
   end
 
   # GET /steps/1/edit
@@ -21,12 +22,19 @@ class StepsController < ApplicationController
 
   # POST /steps or /steps.json
   def create
-    @step = Step.new(step_params)
+    @recipe = Recipe.find(params[:recipe_id])
+    @step = @recipe.steps.new(step_params)
 
     respond_to do |format|
       if @step.save
-        format.html { redirect_to step_url(@step), notice: "Step was successfully created." }
-        format.json { render :show, status: :created, location: @step }
+        if params[:commit] == "Add Another Step"
+          format.html { redirect_to new_recipe_step_path(@recipe), notice: "Step was successfully added. Add another step." }
+          format.json { render :show, status: :created, location: @step }
+        else
+          format.html { redirect_to recipe_url(@recipe), notice: "Recipe and steps were successfully created." }
+          format.json { render :show, status: :created, location: @recipe }
+        end
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @step.errors, status: :unprocessable_entity }
