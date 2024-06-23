@@ -8,3 +8,42 @@
 
   <%= button_to "Destroy this recipe", @recipe, method: :delete %>
 </div>
+
+<h2>Steps:</h2>
+<% @recipe.steps.each do |step| %>
+  <p>
+    <strong><%= step.name %>:</strong>
+    <%= comment.body %> - <%= comment.rating %> stars
+    <% if @recipe.user == current_user %>
+      <%= link_to 'Delete', [step.recipe, step], data: { "turbo-method": :delete, "turbo-confirm": "Are you sure you want to delete your comment?" } %>
+    <% end %>
+  </p>
+<% end %>
+
+
+
+<h2>Comments:</h2>
+<% @recipe.comments.reverse.each do |comment| %>
+  <p>
+    <strong><%= comment.user.email %>:</strong>
+    <%= comment.body %> - <%= comment.rating %> stars
+    <% if comment.user == current_user %>
+      <%= link_to 'Delete', [comment.recipe, comment], data: { "turbo-method": :delete, "turbo-confirm": "Are you sure you want to delete your comment?" } %>
+    <% end %>
+  </p>
+<% end %>
+
+<h2>Add a Comment:</h2>
+<%= form_with(model: [@recipe, @recipe.comments.build], local: true) do |form| %>
+  <div class="field">
+    <%= form.label :body %>
+    <%= form.text_area :body %>
+  </div>
+  <div class="field">
+    <%= form.label :rating %>
+    <%= form.number_field :rating, in: 1..5 %>
+  </div>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
