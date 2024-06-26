@@ -1,0 +1,18 @@
+<h1>Cooking: <%= @recipe.name %></h1>
+
+<div id="step">
+  <h2>Step <%= @step.position %>: <%= @step.description %></h2>
+  <p>Time: <%= @step.time %> minutes</p>
+</div>
+
+<div class="navigation">
+  <% if @step.previous %>
+    <%= link_to 'Previous Step', cook_step_recipe_path(@recipe, step_id: @step.previous.id), class: 'btn btn-secondary' %>
+  <% end %>
+
+  <% if @step.next %>
+    <%= link_to 'Next Step', cook_step_recipe_path(@recipe, step_id: @step.next.id), class: 'btn btn-primary' %>
+  <% else %>
+    <%= link_to 'Finish Cooking', recipe_path(@recipe), class: 'btn btn-success' %>
+  <% end %>
+</div>

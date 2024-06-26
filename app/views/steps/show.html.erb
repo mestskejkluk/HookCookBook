@@ -8,3 +8,64 @@
 
   <%= button_to "Destroy this step", @step, method: :delete %>
 </div>
+
+<h2>Ingredients:</h2>
+<% @step.ingredients_steps.each do |ingredient_step| %>
+  <p>
+    <strong><%= ingredient_step.ingredient.name %>:</strong>
+    <%= ingredient_step.quantity %> - <%= ingredient_step.unit %>
+  </p>
+
+<% end %>
+
+<div id="timer-<%= @step.id %>">
+  <button onclick="startTimer(<%= @step.time %>, 'timer-display-<%= @step.id %>')">Start Timer</button>
+  <span id="timer-display-<%= @step.id %>"><%= @step.time %>:00</span>
+</div>
+
+
+
+
+<script type="text/javascript" charset="utf-8">
+    function startTimer(duration, displayId) {
+        var timer = duration * 60, minutes, seconds;
+        var display = document.getElementById(displayId);
+        var interval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(interval);
+                display.textContent = "Time's up!";
+                playSound();
+            }
+        }, 1000);
+    }
+
+    var audio;
+
+    function playSound() {
+        audio = new Audio('http://soundbible.com/grab.php?id=1815&type=mp3');
+        audio.loop = true;
+        audio.play();
+        showAlert();
+    }
+
+    function showAlert() {
+        if (confirm("Time's up! Click OK to stop the alarm.")) {
+            stopSound();
+        }
+    }
+
+    function stopSound() {
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    }
+</script>

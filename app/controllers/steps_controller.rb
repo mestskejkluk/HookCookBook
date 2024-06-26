@@ -8,16 +8,19 @@ class StepsController < ApplicationController
 
   # GET /steps/1 or /steps/1.json
   def show
+    @step = Step.find(params[:id])
   end
 
   # GET /steps/new
   def new
     @recipe = Recipe.find(params[:recipe_id])
     @step = @recipe.steps.new
+    @step.ingredients_steps.build.build_ingredient
   end
 
   # GET /steps/1/edit
   def edit
+    @step.ingredients_steps.build.build_ingredient if @step.ingredients_steps.empty?
   end
 
   # POST /steps or /steps.json
@@ -73,6 +76,7 @@ class StepsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def step_params
-      params.require(:step).permit(:name, :description, :time, :timer, :recipe_id)
+      params.require(:step).permit(:name, :description, :time, :timer, :recipe_id, ingredients_steps_attributes: [
+        :id, :step_id, :ingredient_id, :quantity, :unit, :_destroy, ingredients_attributes: [ :id, :name, :description, :_destroy ] ])
     end
 end

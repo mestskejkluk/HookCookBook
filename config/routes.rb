@@ -1,11 +1,21 @@
 Rails.application.routes.draw do
+  resources :ingredients_steps do
+    resources :ingredients, only: [:new, :create, :destroy, :update]
+  end
   get "home/index"
   resources :comments
   resources :ingredients
-  resources :steps
+  resources :steps do
+    resources :ingredients_steps, only: [:new, :create, :destroy, :update]
+    resources :ingredients, only: [:new, :create, :destroy, :update]
+  end
   resources :recipes do
     resources :comments, only: [:create, :destroy]
     resources :steps, only: [:new, :create, :destroy, :update]
+    member do
+      get 'start_cooking'
+      get 'cook_step/:step_id', to: 'recipes#cook_step', as: 'cook_step'
+    end
   end
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

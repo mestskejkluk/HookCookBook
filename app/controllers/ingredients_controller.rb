@@ -12,7 +12,7 @@ class IngredientsController < ApplicationController
 
   # GET /ingredients/new
   def new
-    @ingredient = Ingredient.new
+    @ingredient = current_user.ingredients.build
   end
 
   # GET /ingredients/1/edit
@@ -21,7 +21,7 @@ class IngredientsController < ApplicationController
 
   # POST /ingredients or /ingredients.json
   def create
-    @ingredient = Ingredient.new(ingredient_params)
+    @ingredient = current_user.ingredients.build(ingredient_params)
 
     respond_to do |format|
       if @ingredient.save

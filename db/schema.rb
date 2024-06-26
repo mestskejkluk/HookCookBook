@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_06_23_125306) do
+ActiveRecord::Schema[7.2].define(version: 2024_06_26_161536) do
   create_table "comments", force: :cascade do |t|
     t.integer "rating"
     t.text "body"
@@ -24,8 +24,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_06_23_125306) do
 
   create_table "ingredients", force: :cascade do |t|
     t.string "name"
-    t.text "description"
-    t.string "mesurement"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
@@ -61,6 +59,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_06_23_125306) do
     t.integer "recipe_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
+    t.index ["position"], name: "index_steps_on_position"
     t.index ["recipe_id"], name: "index_steps_on_recipe_id"
   end
 

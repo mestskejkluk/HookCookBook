@@ -9,12 +9,21 @@ class RecipesController < ApplicationController
   # GET /recipes/1 or /recipes/1.json
   def show
     @recipe = Recipe.find(params[:id])
+    @ingredients_steps = @recipe.ingredients_steps
+    total_time = @recipe.steps.sum(:time)
+    if total_time < 60
+      total_time = total_time.to_s + " min"
+    else
+      total_time = total_time / 60.to_s + " h " + total_time % 60.to_s + " min"
+    end
+    @total_time = total_time
+    @total_rating = @recipe.comments.average(:rating).to_f.round(1)
   end
 
   # GET /recipes/new
   def new
     @recipe = current_user.recipes.build
-    @recipe.steps.build
+    @recipe.steps.build.ingredients_steps.build.build_ingredient
   end
 
   # GET /recipes/1/edit
@@ -30,7 +39,7 @@ class RecipesController < ApplicationController
     respond_to do |format|
       if @recipe.save
         format.html { redirect_to new_recipe_step_path(@recipe), notice: "Receipt was successfully created. Now add steps." }
-        
+
         format.json { render :show, status: :created, location: @recipe }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -60,6 +69,19 @@ class RecipesController < ApplicationController
       format.html { redirect_to recipes_url, notice: "Recipe was successfully destroyed." }
       format.json { head :no_content }
     end
+
+  end
+
+  def start_cooking
+    @recipe = Recipe.find(params[:id])
+    @step = @recipe.steps.ordered.first
+    render :cook
+  end
+
+  def cook_step
+    @recipe = Recipe.find(params[:id])
+    @step = @recipe.steps.find(params[:step_id])
+    render :cook
   end
 
   private
@@ -75,6 +97,7 @@ class RecipesController < ApplicationController
   # ends
 
   def recipe_params
-    params.require(:recipe).permit(:name, :description, :difficulty, steps_attributes: [:id, :time, :name, :description, :_destroy])
+    params.require(:recipe).permit(:name, :description, :difficulty, steps_attributes: [:id, :time, :name, :description, :_destroy, ingredients_steps_attributes: [
+      :id, :quantity, :unit, :_destroy, ingredients_attributes: [:id, :name, :description, :_destroy]]])
   end
 end

@@ -8,16 +8,32 @@
   <%= button_to "Destroy this recipe", @recipe, method: :delete %>
 </div>
 
+<p>
+  <strong>total time:</strong> - <%= @total_time %>
+</p>
+<p>
+  <strong>rating:</strong> - <%= @total_rating %>
+</p>
+
 <h2>Steps:</h2>
 <% @recipe.steps.each do |step| %>
   <p>
     <strong><%= step.name %>:</strong>
-    <%= step.description %> - <%= step.time %> minutes
+    <%= link_to "#{step.description}", step %> - <%= step.time %> minutes
     <% if @recipe.user == current_user %>
 
     <% end %>
   </p>
 <% end %>
+
+<h2>Ingredients</h2>
+<ul>
+  <% @ingredients_steps.each do |ing_st| %>
+    <li><%= ing_st.ingredient.name %>, <%= ing_st.quantity %> <%= ing_st.unit %></li>
+  <% end %>
+</ul>
+
+<%= link_to 'Start Cooking', start_cooking_recipe_path(@recipe), class: 'btn btn-primary' %>
 
 
 
