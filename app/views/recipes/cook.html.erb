@@ -13,8 +13,20 @@
     <%= image_tag 'pot.jpg', style: 'max-width: 500px; max-height: 500px; width: auto; height: auto;' %>
   <% end %>
 
-  <div id="instructions">
-    <h3><%= @step.description %></h3>
+  <% if @step.ingredients_steps.any? %>
+    <h2> For this step you will need</h2>
+    <ul class="list-group">
+      <% @step.ingredients_steps.each do |ing_st| %>
+        <li class="list-group-item fs-5">
+          <%= ing_st.ingredient.name %>, <%= ing_st.quantity %> <%= ing_st.unit %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div id="instructions" >
+    <h2 class="text-center"> Instructions </h2>
+    <p class="fs-4"><%= @step.description %></p>
   </div>
 
   <% if @step.timer? %>
