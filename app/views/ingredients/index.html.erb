@@ -2,25 +2,27 @@
 
 <% content_for :title, "Ingredients" %>
 
-<h1>Ingredients</h1>
-
-<%= form_with(url: ingredients_path, method: :get, local: true) do |form| %>
-  <div class="field">
-    <%= form.label :search, "Search Ingredients" %>
-    <%= form.text_field :search, value: params[:search] %>
+<div class="container my-4 d-flex justify-content-center flex-wrap-reverse">
+  <div class="btn-group" role="group">
+    <a class="btn btn-primary" href="<%= new_ingredient_path %>">New ingredient</a>
+    <%= form_with(url: ingredients_path, method: :get, local: true,class: "btn-group", role: "group") do |form| %>
+      <%= form.text_field :search, value: params[:search],placeholder: "Search Ingredients" %>
+      <%= form.submit "Search", class: "btn btn-primary" %>
+    <% end %>
   </div>
-  <div class="actions">
-    <%= form.submit "Search" %>
-  </div>
-<% end %>
+</div>
 
 <div id="ingredients">
+  <% if @ingredients.any? %>
+  <ul class="list-group">
   <% @ingredients.each do |ingredient| %>
-    <%= render ingredient %>
-    <p>
-      <%= link_to "Show this ingredient", ingredient %>
-    </p>
+      <li class="list-group-item text-center"><strong><%= ingredient.name.capitalize %></strong>
+        - <%= link_to "Recipes with this ingredient", recipes_path(search: ingredient.name), class:"btn btn-sm btn-outline-secondary" %>
+      </li>
+  <% end %>
+  </ul>
+  <% else %>
+    <p>No results found</p>
   <% end %>
 </div>
 
-<%= link_to "New ingredient", new_ingredient_path %>

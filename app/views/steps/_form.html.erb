@@ -14,20 +14,22 @@
   <h4>Ingredients</h4>
   <div class="my-2" data-controller="nested-rondo" data-nested-rondo-field-class-value="ingredient-field">
     <div data-nested-rondo-target="fieldContain">
-    <%= f.simple_fields_for :ingredients_steps do |step_ingredient_form| %>
-      <%= render "ingredients_step_fields", f: step_ingredient_form %>
-    <% end %>
+
   </div>
   <div class="links">
-    <%= link_to_add_association "Add Ingredient", f, :ingredients_steps %>
+    <%= link_to_add_association "Add Ingredient", f, :ingredients_steps, class: "btn btn-outline-success" %>
   </div>
-    <p> Haven't found your ingredient? Create it <%= link_to "here", new_ingredient_path, target: "_blank" %></p>
+    <p> Haven't found your ingredient in the list? Create it <%= link_to "here", new_ingredient_path, target: "_blank" %></p>
   </div>
 
 
   <div class="actions">
-    <%= f.submit "Add Another Step", name: 'commit' %>
-    <%= f.submit "Finish Recipe", name: 'commit' %>
+    <% if @step.persisted? %>
+      <%= f.submit "Save", class: "btn btn-primary" %>
+    <% else %>
+      <%= f.submit "Add Another Step", name: 'commit', class: "btn btn-secondary" %>
+      <%= f.submit "Finish Recipe", name: 'commit', class: "btn btn-primary" %>
+    <% end %>
   </div>
 
 

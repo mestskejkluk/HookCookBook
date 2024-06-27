@@ -1,8 +1,7 @@
-<div class="ingredient-field">
+<div class="ingredient-field my-3 p-2 border border-dark-subtle rounded-2">
   <%= f.association :ingredient, include_blank: 'Select ingredient' %>
   <%= f.input :quantity %>
   <%= f.input :unit %>
 
-  <%= link_to_remove_association "Remove Ingredient", f %>
-  <%= link_to_remove_association "Remove Step", f %>
+  <%= link_to_remove_association "Remove Ingredient", f, class:"btn btn-outline-danger" %>
 </div>

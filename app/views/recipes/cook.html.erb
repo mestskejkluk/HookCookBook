@@ -1,37 +1,44 @@
-<h1>Cooking: <%= @recipe.name %></h1>
+<div class="d-flex flex-column align-items-center">
 
-<div id="step">
-  <h2>Step <%= @step.position %>: <%= @step.name %></h2>
-  <p>Time: <%= @step.time %> minutes</p>
-</div>
+  <h1>Cooking: <%= @recipe.name %></h1>
 
-<% if @step.image.attached? %>
-  <%= image_tag @step.image, style: 'max-width: 500px; max-height: 500px; width: auto; height: auto;' %>
-<% else %>
-  <%= image_tag 'pot.jpg', style: 'max-width: 500px; max-height: 500px; width: auto; height: auto;' %>
-<% end %>
+  <div id="step">
+    <h2>Step <%= @step.position %>: <%= @step.name %></h2>
+    <p>Time: <%= @step.time %> minutes</p>
+  </div>
 
-<div id="instructions">
-  <h3><%= @step.description %></h3>
-</div>
-
-<% if @step.timer? %>
-<div id="timer-<%= @step.id %>">
-  <button onclick="startTimer(<%= @step.time %>, 'timer-display-<%= @step.id %>')">Start Timer</button>
-  <span id="timer-display-<%= @step.id %>"><%= @step.time %>:00</span>
-</div>
-<% end %>
-
-<div class="navigation">
-  <% if @step.previous %>
-    <%= link_to 'Previous Step', cook_step_recipe_path(@recipe, step_id: @step.previous.id), class: 'btn btn-secondary' %>
-  <% end %>
-
-  <% if @step.next %>
-    <%= link_to 'Next Step', cook_step_recipe_path(@recipe, step_id: @step.next.id), class: 'btn btn-primary' %>
+  <% if @step.image.attached? %>
+    <%= image_tag @step.image, style: 'max-width: 500px; max-height: 500px; width: auto; height: auto;' %>
   <% else %>
-    <%= link_to 'Finish Cooking', recipe_path(@recipe), class: 'btn btn-success' %>
+    <%= image_tag 'pot.jpg', style: 'max-width: 500px; max-height: 500px; width: auto; height: auto;' %>
   <% end %>
+
+  <div id="instructions">
+    <h3><%= @step.description %></h3>
+  </div>
+
+  <% if @step.timer? %>
+    <div class="m-3 border border-dark-subtle rounded-2 w-25 d-flex flex-column align-items-center" id="timer-<%= @step.id %>">
+      <p>
+        <span class="fs-1 fw-bold" id="timer-display-<%= @step.id %>"><%= @step.time %>:00</span>
+      </p>
+      <button onclick="startTimer(<%= @step.time %>, 'timer-display-<%= @step.id %>')" class="my-3 btn btn-secondary">Start
+        Timer
+      </button>
+    </div>
+  <% end %>
+
+  <div class="navigation">
+    <% if @step.previous %>
+      <%= link_to 'Previous Step', cook_step_recipe_path(@recipe, step_id: @step.previous.id), class: 'btn btn-secondary' %>
+    <% end %>
+
+    <% if @step.next %>
+      <%= link_to 'Next Step', cook_step_recipe_path(@recipe, step_id: @step.next.id), class: 'btn btn-primary' %>
+    <% else %>
+      <%= link_to 'Finish Cooking', recipe_path(@recipe), class: 'btn btn-success' %>
+    <% end %>
+  </div>
 </div>
 
 <script type="text/javascript" charset="utf-8">

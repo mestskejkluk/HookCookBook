@@ -29,8 +29,8 @@ class IngredientsController < ApplicationController
 
     respond_to do |format|
       if @ingredient.save
-        format.html { redirect_to ingredient_url(@ingredient), notice: "Ingredient was successfully created." }
-        format.json { render :show, status: :created, location: @ingredient }
+        format.html { redirect_to ingredients_path, notice: "Ingredient was successfully created." }
+        format.json { render :show, status: :created, location: @ingredients }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @ingredient.errors, status: :unprocessable_entity }
@@ -42,8 +42,8 @@ class IngredientsController < ApplicationController
   def update
     respond_to do |format|
       if @ingredient.update(ingredient_params)
-        format.html { redirect_to ingredient_url(@ingredient), notice: "Ingredient was successfully updated." }
-        format.json { render :show, status: :ok, location: @ingredient }
+        format.html { redirect_to ingredients_path, notice: "Ingredient was successfully updated." }
+        format.json { render :show, status: :ok, location: @ingredients }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @ingredient.errors, status: :unprocessable_entity }
@@ -69,6 +69,6 @@ class IngredientsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ingredient_params
-      params.require(:ingredient).permit(:name, :description, :mesurement)
+      params.require(:ingredient).permit(:name)
     end
 end

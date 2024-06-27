@@ -4,20 +4,25 @@
 <div class="container my-4 d-flex justify-content-center flex-wrap-reverse">
   <div class="btn-group" role="group">
     <a class="btn btn-primary" href="<%= new_recipe_path %>">New recipe</a>
-    <%= form_with(url: recipes_path, method: :get, local: true,class: "btn-group", role: "group") do |form| %>
-        <%= form.text_field :search, value: params[:search],placeholder: "Search recipes" %>
-        <%= form.submit "Search", class: "btn btn-primary" %>
+    <%= form_with(url: recipes_path, method: :get, local: true, class: "btn-group", role: "group") do |form| %>
+      <%= form.text_field :search, value: params[:search], placeholder: "Search recipes" %>
+      <%= form.submit "Search", class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>
 
 
 <div id="recipes" class="mx-auto">
-  <% @recipes.each do |recipe| %>
-    <%= link_to recipe_path(recipe), class: 'text-decoration-none text-dark' do %>
-      <%= render recipe %>
+  <% if @recipes.any? %>
+    <% @recipes.each do |recipe| %>
+      <%= link_to recipe_path(recipe), class: 'text-decoration-none text-dark' do %>
+        <%= render recipe %>
+      <% end %>
     <% end %>
+  <% else %>
+    <p>No results found</p>
   <% end %>
 </div>
+
 
 
