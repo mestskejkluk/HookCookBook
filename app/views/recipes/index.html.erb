@@ -4,6 +4,16 @@
 
 <h1>Recipes</h1>
 
+<%= form_with(url: recipes_path, method: :get, local: true) do |form| %>
+  <div class="field">
+    <%= form.label :search, "Search Recipes" %>
+    <%= form.text_field :search, value: params[:search] %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Search" %>
+  </div>
+<% end %>
+
 <div id="recipes">
   <% @recipes.each do |recipe| %>
     <%= render recipe %>

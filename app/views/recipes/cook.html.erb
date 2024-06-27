@@ -5,6 +5,11 @@
   <p>Time: <%= @step.time %> minutes</p>
 </div>
 
+<div id="timer-<%= @step.id %>">
+  <button onclick="startTimer(<%= @step.time %>, 'timer-display-<%= @step.id %>')">Start Timer</button>
+  <span id="timer-display-<%= @step.id %>"><%= @step.time %>:00</span>
+</div>
+
 <div class="navigation">
   <% if @step.previous %>
     <%= link_to 'Previous Step', cook_step_recipe_path(@recipe, step_id: @step.previous.id), class: 'btn btn-secondary' %>
@@ -16,3 +21,47 @@
     <%= link_to 'Finish Cooking', recipe_path(@recipe), class: 'btn btn-success' %>
   <% end %>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+    function startTimer(duration, displayId) {
+        let timer = duration * 60, minutes, seconds;
+        let display = document.getElementById(displayId);
+        let interval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(interval);
+                display.textContent = "Time's up!";
+                playSound();
+            }
+        }, 1000);
+    }
+
+    let audio;
+
+    function playSound() {
+        audio = new Audio('http://soundbible.com/grab.php?id=1815&type=mp3');
+        audio.loop = true;
+        audio.play();
+        showAlert();
+    }
+
+    function showAlert() {
+        if (confirm("Time's up! Click OK to stop the alarm.")) {
+            stopSound();
+        }
+    }
+
+    function stopSound() {
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+    }
+</script>

@@ -18,8 +18,8 @@
 <h2>Steps:</h2>
 <% @recipe.steps.each do |step| %>
   <p>
-    <strong><%= step.name %>:</strong>
-    <%= link_to "#{step.description}", step %> - <%= step.time %> minutes
+    <strong><%= link_to "#{step.name}", step %>:</strong>
+    <%= step.description[0,17]+'...' %> - <%= step.time %> minutes
     <% if @recipe.user == current_user %>
 
     <% end %>
