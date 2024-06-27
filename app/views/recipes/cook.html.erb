@@ -1,14 +1,26 @@
 <h1>Cooking: <%= @recipe.name %></h1>
 
 <div id="step">
-  <h2>Step <%= @step.position %>: <%= @step.description %></h2>
+  <h2>Step <%= @step.position %>: <%= @step.name %></h2>
   <p>Time: <%= @step.time %> minutes</p>
 </div>
 
+<% if @step.image.attached? %>
+  <%= image_tag @step.image, style: 'max-width: 500px; max-height: 500px; width: auto; height: auto;' %>
+<% else %>
+  <%= image_tag 'pot.jpg', style: 'max-width: 500px; max-height: 500px; width: auto; height: auto;' %>
+<% end %>
+
+<div id="instructions">
+  <h3><%= @step.description %></h3>
+</div>
+
+<% if @step.timer? %>
 <div id="timer-<%= @step.id %>">
   <button onclick="startTimer(<%= @step.time %>, 'timer-display-<%= @step.id %>')">Start Timer</button>
   <span id="timer-display-<%= @step.id %>"><%= @step.time %>:00</span>
 </div>
+<% end %>
 
 <div class="navigation">
   <% if @step.previous %>

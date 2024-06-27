@@ -3,9 +3,9 @@
 <%= render @step %>
 
 <% if @step.image.attached? %>
-  <%= image_tag @step.image.variant(resize_to_limit: [500, 500]) %>
+  <%= image_tag @step.image, style: 'max-width: 300px; max-height: 300px; width: auto; height: auto;' %>
 <% else %>
-  <%= image_tag 'pot.jpg', style: 'max-width: 500px; max-height: 500px; width: auto; height: auto;' %>
+  <%= image_tag 'pot.jpg', style: 'max-width: 300px; max-height: 300px; width: auto; height: auto;' %>
 <% end %>
 
 <div>

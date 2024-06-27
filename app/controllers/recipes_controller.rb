@@ -1,5 +1,6 @@
 class RecipesController < ApplicationController
   before_action :set_recipe, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /recipes or /recipes.json
   def index
@@ -103,7 +104,7 @@ class RecipesController < ApplicationController
   # ends
 
   def recipe_params
-    params.require(:recipe).permit(:name, :description, :difficulty, steps_attributes: [:id, :time, :name, :description, :_destroy, ingredients_steps_attributes: [
+    params.require(:recipe).permit(:name, :description, :difficulty, :image, steps_attributes: [:id, :time, :name, :description, :_destroy, ingredients_steps_attributes: [
       :id, :quantity, :unit, :_destroy, ingredients_attributes: [:id, :name, :description, :_destroy]]])
   end
 end

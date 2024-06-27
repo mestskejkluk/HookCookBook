@@ -76,7 +76,7 @@ class StepsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def step_params
-      params.require(:step).permit(:name, :description, :time, :timer, :recipe_id, ingredients_steps_attributes: [
+      params.require(:step).permit(:name, :description, :time, :timer, :recipe_id, :image, ingredients_steps_attributes: [
         :id, :step_id, :ingredient_id, :quantity, :unit, :_destroy, ingredients_attributes: [ :id, :name, :description, :_destroy ] ])
     end
 end
