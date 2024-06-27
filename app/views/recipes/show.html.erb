@@ -37,7 +37,7 @@
         <ul class="list-group">
           <% @recipe.steps.each do |step| %>
             <li class="list-group-item text-center">
-              <strong><%= link_to "#{step.name}", step %>:</strong>
+              <strong><%= link_to "#{step.name}", cook_step_recipe_path(@recipe, step_id: step.id) %>:</strong>
               <%= step.description[0, 27] + '...' %> - <%= step.time %> minutes
               <% if @recipe.user == current_user %>
                 <%= link_to "Edit", edit_step_path(step), class: "btn btn-sm btn-outline-success" %>
