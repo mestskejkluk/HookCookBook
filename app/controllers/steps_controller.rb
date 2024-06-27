@@ -49,7 +49,7 @@ class StepsController < ApplicationController
   def update
     respond_to do |format|
       if @step.update(step_params)
-        format.html { redirect_to step_url(@step), notice: "Step was successfully updated." }
+        format.html { redirect_to cook_step_recipe_path(@step.recipe, step_id: @step.id), notice: "Step was successfully updated." }
         format.json { render :show, status: :ok, location: @step }
       else
         format.html { render :edit, status: :unprocessable_entity }
