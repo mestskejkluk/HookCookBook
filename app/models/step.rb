@@ -4,6 +4,7 @@ class Step < ApplicationRecord
   has_many :ingredients, through: :ingredients_steps
   accepts_nested_attributes_for :ingredients_steps, allow_destroy: true
   accepts_nested_attributes_for :ingredients, allow_destroy: true
+  has_one_attached :image
 
   validates :name, presence: true, length: { in: 1..50 }
   validates :description, presence: true, length: { in: 1..420 }

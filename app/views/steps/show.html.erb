@@ -2,6 +2,12 @@
 
 <%= render @step %>
 
+<% if @step.image.attached? %>
+  <%= image_tag @step.image.variant(resize_to_limit: [500, 500]) %>
+<% else %>
+  <%= image_tag 'pot.jpg', style: 'max-width: 500px; max-height: 500px; width: auto; height: auto;' %>
+<% end %>
+
 <div>
   <%= link_to "Edit this step", edit_step_path(@step) %> |
   <%= link_to "Back to steps", steps_path %>

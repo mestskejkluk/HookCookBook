@@ -1,6 +1,12 @@
 
 <%= render @recipe %>
 
+<% if @recipe.image.attached? %>
+  <%= image_tag @recipe.image.variant(resize_to_limit: [300, 300]) %>
+<% else %>
+  <%= image_tag 'plate.jpg', style: 'max-width: 300px; max-height: 300px; width: auto; height: auto; filter: grayscale(100%);' %>
+<% end %>
+
 <div>
   <%= link_to "Edit this recipe", edit_recipe_path(@recipe) %> |
   <%= link_to "Back to recipes", recipes_path %>
